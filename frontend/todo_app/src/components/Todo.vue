@@ -1,12 +1,11 @@
 <template >
-    <v-flex xs12 sm6 md4 lg3 >
+    <v-flex xs12 sm6 md4 lg3 @click="showTodoDetails">
             <v-card class="text-xs-center ma-3 pb-3" > 
                 <v-card-title>  
                    <h4> {{todo.title}} </h4>
                     <v-spacer></v-spacer>
                     <v-icon :color="priorityColorMapping[todo.priority]">
                         label
-
                     </v-icon>
                 </v-card-title>
                 <v-card-text class="ml-2">
@@ -16,12 +15,7 @@
                     <div class="subheading" v-else>
                         {{ todo.description }}
                     </div>
-                     
                 </v-card-text>
-              
-                
-              
-
             </v-card>
     </v-flex>
 </template>
@@ -43,8 +37,9 @@ export default {
     methods : {
          showTodoDetails(){
             console.log("Todo Clicked")
-            console.log("Title: " + this.todo.title)
-            this.$store.commit("setCurrentTodo",this.todo)
+         
+            this.$store.commit("setCurrentTodo",{...this.todo})
+            this.$store.commit("setCurrentTodoIndex",this.index)
             this.$store.commit("setTodoDetailsDialogStatus",true)
         }
     }

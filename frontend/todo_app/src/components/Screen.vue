@@ -1,7 +1,7 @@
 <template>
    <v-container fluid>
-     <Analytics/>
-       <hr />
+     <!-- <Analytics/>
+       <hr /> -->
      <TodosGrid />
    </v-container>
 
@@ -9,13 +9,13 @@
 </template>
 
 <script>
-import Analytics from './Analytics'
+// import Analytics from './Analytics'
 import TodosGrid from './TodosGrid'
 
 export default {
   name: 'Screen',
   components : {
-    Analytics,
+    // Analytics,
     TodosGrid
   }
   

@@ -7,12 +7,14 @@ export default new Vuex.Store({
   state: {
     todoDetailsDialog : false,
     addTodoDialog : false,
+    editTodo : false,
     newTodo : {
       "title":"",
       "description":"",
       "priority":""
     },
     currentTodo : {},
+    currentTodoIndex : null,
     todos: [
       {
       "id":"1",
@@ -76,13 +78,20 @@ export default new Vuex.Store({
     getAddTodoDialogStatus: (state) => state.addTodoDialog,
     getNewTodoPriority: (state) => state.newTodo.priority,
     getNewTodo: (state) => state.newTodo,
-    getCurrentTodo: (state) => state.currentTodo
+    getCurrentTodo: (state) => state.currentTodo,
+    getEditTodoStatus: (state) => state.editTodo
+
   },
   mutations: {
     setTodoDetailsDialogStatus: (state,value) => state.todoDetailsDialog = value,
     setAddTodoDialogStatus: (state,value) => state.addTodoDialog = value,
     setNewTodoPriority: (state,value) => state.newTodo.priority = value,
-    setCurrentTodo: (state,value) => state.currentTodo=value
+    setCurrentTodo: (state,value) => state.currentTodo=value,
+    setCurrentTodoIndex: (state,value) => state.currentTodoIndex=value,
+    setEditTodoStatus: (state,value) => state.editTodo = value,
+    changeTodoDetails(state,todo){
+      Object.assign(state.todos[state.currentTodoIndex],todo)
+    }
   },
   actions: {
      

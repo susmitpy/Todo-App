@@ -26,7 +26,7 @@
                         :key = "todo.id"
                         :todo = todo
                         :index = index
-                        @click="showTodoDetails"
+                        
                         />     
                 </v-layout>
             </v-container>
