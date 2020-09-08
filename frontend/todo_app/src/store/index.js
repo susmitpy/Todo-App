@@ -5,7 +5,14 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-   
+    todoDetailsDialog : false,
+    addTodoDialog : false,
+    newTodo : {
+      "title":"",
+      "description":"",
+      "priority":""
+    },
+    currentTodo : {},
     todos: [
       {
       "id":"1",
@@ -40,7 +47,7 @@ export default new Vuex.Store({
           {
             "id":"6",
             "title" : "Todo 6 Title",
-            "description" : "Todo 6 Description",
+            "description" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo a labore aspernatur suscipit aliquid sit, est quae dolore officia tempora, adipisci laborum quaerat voluptas, officiis commodi necessitatibus rem porro. Laudantium?",
             "priority" : "Medium",
             },
         {
@@ -65,10 +72,17 @@ export default new Vuex.Store({
   },
   getters : {
     allTodos: (state) => state.todos,
-   
+    getTodoDetailsDialogStatus: (state) => state.todoDetailsDialog,
+    getAddTodoDialogStatus: (state) => state.addTodoDialog,
+    getNewTodoPriority: (state) => state.newTodo.priority,
+    getNewTodo: (state) => state.newTodo,
+    getCurrentTodo: (state) => state.currentTodo
   },
   mutations: {
-   
+    setTodoDetailsDialogStatus: (state,value) => state.todoDetailsDialog = value,
+    setAddTodoDialogStatus: (state,value) => state.addTodoDialog = value,
+    setNewTodoPriority: (state,value) => state.newTodo.priority = value,
+    setCurrentTodo: (state,value) => state.currentTodo=value
   },
   actions: {
      

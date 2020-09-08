@@ -1,9 +1,11 @@
 <template>
-  <div>
+   <v-container fluid>
      <Analytics/>
-     <hr />
+       <hr />
      <TodosGrid />
-  </div>
+   </v-container>
+
+
 </template>
 
 <script>

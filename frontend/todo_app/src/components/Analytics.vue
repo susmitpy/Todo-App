@@ -1,5 +1,11 @@
 <template>
-    <div class="container">
+
+   <v-row>
+       
+<h1> My Performance Overview </h1>
+   </v-row>
+
+    <!-- <div class="container">
         <div class="row">
             <h1> My Performance Overview </h1>
         </div>
@@ -14,7 +20,7 @@
                 <p> Something should go here....</p>
             </div>
         </div>
-    </div>
+    </div> -->
 </template>
 
 <script>

@@ -1,59 +1,77 @@
 <template>
-    <div class="container">
-          <h1> My Todos </h1>
-          <AddTodoBtn/>
-            <div class="row">
-                <div class="legend">
-                    Priority :
-                    <b :style="{color:'red'}" class="priority_legend">.</b> &nbsp; High
-                    <b :style="{color:'orange'}" class="priority_legend">.</b> &nbsp; Medium
-                    <b :style="{color:'blue'}" class="priority_legend">.</b> &nbsp; Low
-                </div>
-            </div>
-            <div class="row">
-                <div class = "todos">
-                    <Todo
-                    v-for="todo in allTodos"
-                    :key = "todo.id"
-                    :todo = todo
-                    />
-                </div>
-            </div>
+          
+            <v-container
+                class="fill-height"
+                fluid
+            >
+            <AddTodoDialog/>
+            <TodoDetailsDialog/>
+       
+            <v-row align="center" v-if="isMobile()">
+                <!-- <h1 class="heading"> My Todos  </h1> -->
+                <v-spacer></v-spacer>
+           <span> <AddTodoBtn/>  </span>
+            </v-row>
 
-    </div>
+            <v-row align="center" justify="center" v-else>
+                <!-- <h1 class="heading"> My Web Todos  </h1> -->
+                
+                <span class="ml-3"> <AddTodoBtn/>  </span>
+            </v-row>
+            
+            <v-container class="my-3">
+                <v-layout row wrap>      
+                    <Todo
+                        v-for="(todo,index) in allTodos"
+                        :key = "todo.id"
+                        :todo = todo
+                        :index = index
+                        @click="showTodoDetails"
+                        />     
+                </v-layout>
+            </v-container>
+        </v-container>
 </template>
 
 <script>
 import {mapGetters} from "vuex";
 import Todo from "./Todo";
 import AddTodoBtn from "./AddTodoBtn";
+import AddTodoDialog from "./AddTodoDialog";
+import TodoDetailsDialog from "./TodoDetailsDialog";
 
 export default {
     name : "TodosGrid",
     computed : {
         ...mapGetters(["allTodos"]),    
-    },
+    
+        },
     components : {
         Todo,
-        AddTodoBtn
+        AddTodoBtn,
+        AddTodoDialog,
+           TodoDetailsDialog
+    },
+    methods : {
+         isMobile() {
+            if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                return true
+            } else {
+                return false
+            }
+        },
     }
   
 }
 </script>
 
 <style scoped>
-    .todos {
-        display : grid;
-        grid-template-columns: repeat(3,1fr);
-        grid-gap: 1rem;
-    }
-
+   
     
-
-    @media (max-width: 500px) {
-        .todos {
-            grid-template-columns: 1fr;
-        }
+    .addTodoBtn {
+        position: absolute;
+        bottom:0px;
+        right:0px;
     }
 
     .legend {

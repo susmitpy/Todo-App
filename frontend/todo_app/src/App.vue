@@ -1,11 +1,39 @@
 <template>
-  <div id="app">
-    <router-view/>
-  </div>
+  <v-app>
+    <v-app-bar
+      app
+      color="primary"
+      dark
+    >
+
+      <v-container>
+    <v-row class="text-center">
+      <v-col cols="12">
+       Do your ToDos
+      </v-col>
+    </v-row>
+      </v-container>
+      
+    </v-app-bar>
+
+    <v-main>
+      <router-view/>
+    </v-main>
+  </v-app>
 </template>
 
-<style>
-#app {
-  text-align: center;
-}
-</style>
+<script>
+
+
+export default {
+  name: 'App',
+
+  components: {
+  
+  },
+
+  data: () => ({
+    //
+  }),
+};
+</script>
