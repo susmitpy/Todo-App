@@ -4,7 +4,7 @@
                 <v-card-title>  
                    <h4> {{todo.title}} </h4>
                     <v-spacer></v-spacer>
-                    <v-icon :color="priorityColorMapping[todo.priority]">
+                    <v-icon :color="getPriorityColorMapping[todo.priority]">
                         label
                     </v-icon>
                 </v-card-title>
@@ -21,19 +21,13 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex"
 
 export default {
     name : "Todo",
     props : ["todo","index"],
-    data (){
-        return {
-            priorityColorMapping : {
-                "High" : "red",
-                "Medium" : "orange",
-                "Low" : "blue"
-            },
-        }
-    },
+    computed: mapGetters(["getPriorityColorMapping"]),
+    
     methods : {
          showTodoDetails(){
             console.log("Todo Clicked")

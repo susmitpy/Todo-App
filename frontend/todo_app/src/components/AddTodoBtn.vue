@@ -90,18 +90,19 @@ export default {
     },
   methods:{
       high_priority(){
-          this.$store.commit("setNewTodoPriority","High")
-          this.show_add_todo_dialog();
+
+          this.show_add_todo_dialog(3);
       },
       medium_priority(){
-          this.$store.commit("setNewTodoPriority","Medium")
-          this.show_add_todo_dialog();
+
+          this.show_add_todo_dialog(2);
       },
       low_priority(){
-          this.$store.commit("setNewTodoPriority","Low")
-          this.show_add_todo_dialog();
+
+          this.show_add_todo_dialog(1);
       },
-      show_add_todo_dialog(){
+      show_add_todo_dialog(priority){
+        this.$store.commit("setCurrentTodo",{"priority":priority})
         this.$store.commit("setAddTodoDialogStatus",true)
       },
       isMobile() {

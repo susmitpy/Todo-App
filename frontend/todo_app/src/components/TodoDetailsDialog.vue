@@ -9,7 +9,7 @@
                 My Todo
                 <v-spacer></v-spacer>
                 <span class="caption"> Priority : </span>
-                <v-icon :color="priorityColorMapping[todo.priority]">label</v-icon>
+                <v-icon :color="getPriorityColorMapping[todo.priority]">label</v-icon>
             </v-card-title>
             <v-card-text class="mt-3">
                 <v-form>
@@ -54,7 +54,7 @@ import {mapGetters} from "vuex";
 export default {
     name : "TodoDetailsDialog",
     computed : {
-        ...mapGetters(["getTodoDetailsDialogStatus","getEditTodoStatus"]),
+        ...mapGetters(["getTodoDetailsDialogStatus","getEditTodoStatus","getPriorityColorMapping"]),
         todo() { return this.$store.getters.getCurrentTodo},
     },
     methods : {
@@ -67,19 +67,9 @@ export default {
         },
         saveEditedTodo(){
             this.$store.commit("setEditTodoStatus",false)
-            this.$store.commit("changeTodoDetails",this.todo)
+            this.$store.commit("changeTodoDetails")
         }
 
-    },
-    data() {
-        return {
-            priorityColorMapping : {
-                "High" : "red",
-                "Medium" : "orange",
-                "Low" : "blue"
-            },
-            
-        }
     }
 }
 </script>

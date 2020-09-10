@@ -9,22 +9,29 @@
                 Add Todo
                 <v-spacer></v-spacer>
                 <span class="caption"> Priority : </span>
-                <v-icon :color="priorityColorMapping[getNewTodoPriority]">label</v-icon>
+                <v-icon :color="getPriorityColorMapping[todo.priority]">label</v-icon>
             </v-card-title>
 
             <v-card-text>
-                     <v-form>
+                     <v-form ref="form">  
+
                         <v-text-field
                             label="Title"
                             filled
+                            v-model="todo.title"
+                            :rules="titleRules"
+                            required
+                            :counter=25
                         ></v-text-field>
 
                         <v-textarea
                             label="Description"
                             filled
+                            v-model="todo.description"
+                            :rules="descRules"
+                            required
+                            :counter=100
                         >
-
-
                         </v-textarea>
                      </v-form>
             </v-card-text>
@@ -36,7 +43,7 @@
                     Close
                 </v-btn>
                 <v-spacer></v-spacer>
-                <v-btn text class="success">
+                <v-btn text class="success" @click="addTodo">
                     Add Todo
                 </v-btn>
             </v-card-actions>
@@ -50,24 +57,36 @@ import {mapGetters} from "vuex";
 
 export default {
     name : "AddTodoDialog",
+    data: () => ({
+        titleRules : [
+            v => !!v || "Title is required",
+            v => (v && v.length <= 25) || "Better to keep it Simple"
+        ],
+        descRules : [
+            v => !!v || "Describe here, free clutter in mind",
+            v => (v && v.length <= 100) || "This deserves a document of its own"
+        ]
+    }),
     computed : {
-        ...mapGetters(["getAddTodoDialogStatus","getNewTodoPriority"])
+        ...mapGetters(["getAddTodoDialogStatus","getPriorityColorMapping"]),
+        todo() { return this.$store.getters.getCurrentTodo},
     },
     methods : {
         closeDialog(){
             this.$store.commit("setAddTodoDialogStatus",false)
-        }
+        },
+        addTodo(){
+            if (this.$refs.form.validate()){
+                this.$store.dispatch("addTodo")
+                this.closeDialog();
+            }
+            
+        },
     },
-    data() {
-        return {
-            priorityColorMapping : {
-                "High" : "red",
-                "Medium" : "orange",
-                "Low" : "blue"
-            },
-           
-        }
+    updated(){
+        this.$refs.form.resetValidation();
     }
+   
 }
 </script>
 
