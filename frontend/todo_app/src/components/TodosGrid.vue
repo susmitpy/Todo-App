@@ -20,9 +20,13 @@
             </v-row>
             
             <v-container class="my-3">
+                <div align="right">
+                     <FilterTodos/>
+                </div>
                 <v-layout row wrap>      
                     <Todo
                         v-for="(todo,index) in allTodos"
+                        :v-if="showTodo(todo.priority)"
                         :key = "todo.id"
                         :todo = todo
                         :index = index
@@ -39,7 +43,7 @@ import Todo from "./Todo";
 import AddTodoBtn from "./AddTodoBtn";
 import AddTodoDialog from "./AddTodoDialog";
 import TodoDetailsDialog from "./TodoDetailsDialog";
-
+import FilterTodos from  "./FilterTodos"
 export default {
     name : "TodosGrid",
     computed : {
@@ -50,7 +54,8 @@ export default {
         Todo,
         AddTodoBtn,
         AddTodoDialog,
-           TodoDetailsDialog
+           TodoDetailsDialog,
+           FilterTodos
     },
     methods : {
          isMobile() {
@@ -60,7 +65,12 @@ export default {
                 return false
             }
         },
-    }
+        showTodo(priority){
+            console.log(priority==2)
+            return priority==2;
+        }
+    },
+    
   
 }
 </script>

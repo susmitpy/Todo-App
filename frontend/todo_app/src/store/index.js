@@ -11,6 +11,7 @@ export default new Vuex.Store({
     currentTodo : {},
     currentTodoIndex : null,
     priorityColorMapping : {"3":"red","2":"yellow","1":"blue"},
+    priorityFilter : 0, // 0 -> All
     todos: [
       {
       "id":"1",
@@ -74,7 +75,8 @@ export default new Vuex.Store({
     getAddTodoDialogStatus: (state) => state.addTodoDialog,
     getCurrentTodo: (state) => state.currentTodo,
     getEditTodoStatus: (state) => state.editTodo,
-    getPriorityColorMapping : (state) => state.priorityColorMapping
+    getPriorityColorMapping : (state) => state.priorityColorMapping,
+    getPriorityFilter: (state) => state.priorityFilter
 
   },
   mutations: {
@@ -83,25 +85,25 @@ export default new Vuex.Store({
     setCurrentTodo: (state,value) => state.currentTodo=value,
     setCurrentTodoIndex: (state,value) => state.currentTodoIndex=value,
     setEditTodoStatus: (state,value) => state.editTodo = value,
-    changeTodoDetails(state){
+    commitCurrentTodoToTodoInTodos(state){
       Object.assign(state.todos[state.currentTodoIndex],state.currentTodo)
     },
-    addTodoAtIndex(state,index){
-      state.todos.splice(index,0,state.currentTodo)
+    addTodoAtIndex(state){
+      state.todos.splice(0,0,state.currentTodo)
       state.currentTodo = {}
-    }
+    },
+    setPriorityFilter: (state,value) => state.priorityFilter = value,
+    deleteTodo: (state) => state.todos = state.todos.filter((elem) => elem.id != state.currentTodo.id)
   },
   actions: {
      addTodo({commit}) {
-      console.log("Add todo action called")
-      var todoPriority = this.state.currentTodo.priority
-
-      this.state.todos.some(function(val,ind){
-        if (val.priority <= todoPriority){
-          commit("addTodoAtIndex",ind)
-          return true;
-        }
-      })
+      commit("addTodoAtIndex")
+     },
+     changeTodoDetails({commit}){
+       commit("commitCurrentTodoToTodoInTodos")
+     },
+     deleteTodo({commit}){
+       commit("deleteTodo")
      }
   },
   modules: {

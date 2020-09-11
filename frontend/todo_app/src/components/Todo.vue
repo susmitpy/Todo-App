@@ -11,10 +11,14 @@
                 <v-card-text class="ml-2">
                     <div class="subheading" v-if="todo.description.length>30">
                         {{ todo.description.substring(0,30) + " .." }}
+                        
                     </div>
                     <div class="subheading" v-else>
                         {{ todo.description }}
                     </div>
+                    <v-btn fab small text color="red" class="delete" @click.stop="deleteTodo">
+                        <v-icon>delete</v-icon>
+                     </v-btn>
                 </v-card-text>
             </v-card>
     </v-flex>
@@ -35,6 +39,10 @@ export default {
             this.$store.commit("setCurrentTodo",{...this.todo})
             this.$store.commit("setCurrentTodoIndex",this.index)
             this.$store.commit("setTodoDetailsDialogStatus",true)
+        },
+        deleteTodo(){
+            this.$store.commit("setCurrentTodo",{...this.todo})
+            this.$store.dispatch("deleteTodo")
         }
     }
 }
@@ -51,5 +59,10 @@ export default {
         cursor: pointer;
     }
 
+.delete {
+    position: absolute;;
+    bottom:0px;
+    right:0px;
+}
       
 </style>

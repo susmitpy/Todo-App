@@ -10,14 +10,46 @@
                 <v-spacer></v-spacer>
                 <span class="caption"> Priority : </span>
                 <v-icon :color="getPriorityColorMapping[todo.priority]">label</v-icon>
+                
+                <v-dialog max-width="250" :persistent="true" v-model="dialog">
+                    <template #activator="{on:dialog}">
+                        <v-tooltip right>
+                                <template #activator="{on:tooltip}">
+                                    <v-btn text v-on="{...tooltip,...dialog}" fab>
+                                        <v-icon small>edit</v-icon>
+                                    </v-btn>
+                                </template>
+                                <span>Edit Priority</span>
+                        </v-tooltip>
+                    </template>
+                    <v-card>
+                        <v-card-title>Choose New Priority</v-card-title>
+                        <v-card-text align="center"
+                             v-for="priority in [3,2,1].filter((v)=>v!=todo.priority)"
+                             :key="priority"
+                        >
+                            <v-btn :color="getPriorityColorMapping[priority]" @click="changePriorityTo(priority)">
+                                {{priorityNameMapping[priority]}}
+                            </v-btn>
+                        </v-card-text>
+                        <v-divider></v-divider>
+                        <v-card-actions class="justify-center">
+                            <v-btn @click="dialog=false">
+                                Cancel
+                            </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
             </v-card-title>
             <v-card-text class="mt-3">
-                <v-form>
+                <v-form ref="editTodoForm" >
                     <v-text-field
                             label="Title"
                             filled
                             :readonly="!getEditTodoStatus"
                             v-model="todo.title"
+                            :rules="titleRules"
+                            required
                             />
 
                         <v-textarea
@@ -25,6 +57,8 @@
                             filled
                             :readonly="!getEditTodoStatus"
                             v-model="todo.description"
+                            :rules="descRules"
+                            required
                             />  
                      </v-form>
             </v-card-text>
@@ -63,14 +97,39 @@ export default {
         },
         editTodo(){
             this.$store.commit("setEditTodoStatus",true)
-          //  this.$refs["input"][1].focus()
         },
         saveEditedTodo(){
-            this.$store.commit("setEditTodoStatus",false)
-            this.$store.commit("changeTodoDetails")
+            // if (this.$refs.editTodoForm.validate()){
+              this.$store.commit("setEditTodoStatus",false)
+            this.$store.dispatch("changeTodoDetails")
+            // }
+            
+        },
+        changePriorityTo(newPriority){
+            this.todo.priority = newPriority;
+            this.dialog=false;
+            this.$store.commit("setEditTodoStatus",true)
         }
-
-    }
+    },
+    data(){
+        return {
+            priorityNameMapping : {
+                "3" : "High",
+                "2" : "Medium",
+                "1" : "Low"
+            },
+            dialog : false,
+             titleRules : [
+                v => !!v || "Title is required",
+            ],
+            descRules : [
+                v => !!v || "Describe here, free clutter in mind",
+            ]
+        }
+    },
+    //  updated(){
+    //     this.$refs.editTodoForm.resetValidation();
+    // }
 }
 </script>
 

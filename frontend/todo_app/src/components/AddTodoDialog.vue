@@ -13,7 +13,7 @@
             </v-card-title>
 
             <v-card-text>
-                     <v-form ref="form">  
+                     <v-form ref="addTodoForm">  
 
                         <v-text-field
                             label="Title"
@@ -60,11 +60,9 @@ export default {
     data: () => ({
         titleRules : [
             v => !!v || "Title is required",
-            v => (v && v.length <= 25) || "Better to keep it Simple"
         ],
         descRules : [
             v => !!v || "Describe here, free clutter in mind",
-            v => (v && v.length <= 100) || "This deserves a document of its own"
         ]
     }),
     computed : {
@@ -76,16 +74,19 @@ export default {
             this.$store.commit("setAddTodoDialogStatus",false)
         },
         addTodo(){
-            if (this.$refs.form.validate()){
+            // if (this.$refs.form.validate()){
                 this.$store.dispatch("addTodo")
                 this.closeDialog();
-            }
+            // }
             
         },
     },
-    updated(){
-        this.$refs.form.resetValidation();
-    }
+    // updated(){
+    //     this.$nextTick(() => {
+    //         this.$refs["addTodoForm"].resetValidation();
+    //     })
+        
+    // }
    
 }
 </script>
