@@ -25,8 +25,7 @@
                 </div>
                 <v-layout row wrap>      
                     <Todo
-                        v-for="(todo,index) in allTodos"
-                        :v-if="showTodo(todo.priority)"
+                        v-for="(todo,index) in todosToShow"
                         :key = "todo.id"
                         :todo = todo
                         :index = index
@@ -38,7 +37,6 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex";
 import Todo from "./Todo";
 import AddTodoBtn from "./AddTodoBtn";
 import AddTodoDialog from "./AddTodoDialog";
@@ -46,10 +44,22 @@ import TodoDetailsDialog from "./TodoDetailsDialog";
 import FilterTodos from  "./FilterTodos"
 export default {
     name : "TodosGrid",
-    computed : {
-        ...mapGetters(["allTodos"]),    
-    
-        },
+    computed : {   
+        todosToShow(){
+            var allTodos = this.$store.getters.allTodos
+           
+            var priorityFilter = this.$store.getters.getPriorityFilter
+            if(priorityFilter == 0){ return allTodos }
+            else {
+                return allTodos.filter((elem) => elem.priority==priorityFilter)
+            }
+
+            
+
+            
+           
+        }
+    },
     components : {
         Todo,
         AddTodoBtn,
@@ -65,10 +75,6 @@ export default {
                 return false
             }
         },
-        showTodo(priority){
-            console.log(priority==2)
-            return priority==2;
-        }
     },
     
   

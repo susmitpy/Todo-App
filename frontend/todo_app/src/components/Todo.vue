@@ -9,8 +9,8 @@
                     </v-icon>
                 </v-card-title>
                 <v-card-text class="ml-2">
-                    <div class="subheading" v-if="todo.description.length>30">
-                        {{ todo.description.substring(0,30) + " .." }}
+                    <div class="subheading" v-if="todo.description.length>40">
+                        {{ todo.description.substring(0,40) + " .." }}
                         
                     </div>
                     <div class="subheading" v-else>

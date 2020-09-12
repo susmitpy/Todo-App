@@ -3,6 +3,7 @@
         max-width="300"
         v-model="getAddTodoDialogStatus"
         :persistent="true"
+        
     >
         <v-card>
             <v-card-title class="headline">
@@ -13,15 +14,17 @@
             </v-card-title>
 
             <v-card-text>
-                     <v-form ref="addTodoForm">  
+                     <v-form ref="form">  
 
                         <v-text-field
+                            id="title"
                             label="Title"
                             filled
                             v-model="todo.title"
                             :rules="titleRules"
                             required
-                            :counter=25
+                            counter="25"
+                            @input="titleChecker"
                         ></v-text-field>
 
                         <v-textarea
@@ -30,7 +33,7 @@
                             v-model="todo.description"
                             :rules="descRules"
                             required
-                            :counter=100
+                      
                         >
                         </v-textarea>
                      </v-form>
@@ -60,10 +63,12 @@ export default {
     data: () => ({
         titleRules : [
             v => !!v || "Title is required",
+            v => (v&&v.length <= 10) || "Keep It Short and Simple"
         ],
         descRules : [
             v => !!v || "Describe here, free clutter in mind",
-        ]
+        ],
+      
     }),
     computed : {
         ...mapGetters(["getAddTodoDialogStatus","getPriorityColorMapping"]),
@@ -74,19 +79,28 @@ export default {
             this.$store.commit("setAddTodoDialogStatus",false)
         },
         addTodo(){
-            // if (this.$refs.form.validate()){
+            if (this.$refs.form.validate()){
                 this.$store.dispatch("addTodo")
-                this.closeDialog();
-            // }
-            
+                this.closeDialog()
+            }
         },
+        titleChecker(title){
+            console.log(title.length);
+            if (title.length >= 10){
+                this.todo.title = title.slice(0,9)
+                this.$forceUpdate()
+            } 
+        }
     },
-    // updated(){
-    //     this.$nextTick(() => {
-    //         this.$refs["addTodoForm"].resetValidation();
-    //     })
-        
-    // }
+    updated(){
+        this.$nextTick(() => {
+            if (this.$refs.form){
+                this.$refs.form.resetValidation()
+            }
+            
+        })
+    }
+  
    
 }
 </script>

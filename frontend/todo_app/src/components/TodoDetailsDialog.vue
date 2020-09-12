@@ -42,7 +42,7 @@
                 </v-dialog>
             </v-card-title>
             <v-card-text class="mt-3">
-                <v-form ref="editTodoForm" >
+                <v-form ref="form" >
                     <v-text-field
                             label="Title"
                             filled
@@ -99,10 +99,10 @@ export default {
             this.$store.commit("setEditTodoStatus",true)
         },
         saveEditedTodo(){
-            // if (this.$refs.editTodoForm.validate()){
+            if (this.$refs.form.validate()){
               this.$store.commit("setEditTodoStatus",false)
             this.$store.dispatch("changeTodoDetails")
-            // }
+            }
             
         },
         changePriorityTo(newPriority){
@@ -126,10 +126,7 @@ export default {
                 v => !!v || "Describe here, free clutter in mind",
             ]
         }
-    },
-    //  updated(){
-    //     this.$refs.editTodoForm.resetValidation();
-    // }
+    }
 }
 </script>
 
