@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from "axios"
 
 Vue.use(Vuex)
+
+var todos_base_url = "http://localhost:8100/todos/";
 
 export default new Vuex.Store({
   state: {
@@ -31,32 +34,55 @@ export default new Vuex.Store({
     setCurrentTodo: (state,value) => state.currentTodo=value,
     setCurrentTodoIndex: (state,value) => state.currentTodoIndex=value,
     setEditTodoStatus: (state,value) => state.editTodo = value,
-    commitCurrentTodoToTodoInTodos(state){
-      Object.assign(state.todos[state.currentTodoIndex],state.currentTodo)
+    commitCurrentTodoToTodoInTodos(state,todo){
+      Object.assign(state.todos[state.currentTodoIndex],todo)
     },
-    addTodoAtIndex(state){
-      state.todos.splice(0,0,state.currentTodo)
+    addTodo(state,todo){
+      state.todos.splice(0,0,todo)
       state.currentTodo = {}
     },
     setPriorityFilter: (state,value) => state.priorityFilter = value,
-    deleteTodo: (state) => state.todos = state.todos.filter((elem) => elem.id != state.currentTodo.id),
+    deleteTodo: (state,id) => state.todos = state.todos.filter((elem) => elem.id != id),
     setTodos: (state,value) => state.todos = value
   },
   actions: {
+   
      getTodos({commit}){
-      commit("setTodos",[])
+      axios
+        .get(todos_base_url)
+        .then(res => {
+          commit("setTodos",res.data)
+        })
+        .catch(err => console.log(err));
      },
 
      addTodo({commit}) {
-      commit("addTodoAtIndex")
+       axios
+        .post(todos_base_url, this.state.currentTodo)
+        .then(res => {
+          commit("addTodo",res.data)
+        })
+        .catch(err => console.log(err));
      },
 
      changeTodoDetails({commit}){
-       commit("commitCurrentTodoToTodoInTodos")
+       axios
+        .put(todos_base_url + this.state.currentTodo.id + "/", 
+          this.state.currentTodo
+        )
+        .then(res => {
+          commit("commitCurrentTodoToTodoInTodos",res.data)
+        })
+        .catch(err => console.log(err));
      },
 
      deleteTodo({commit}){
-       commit("deleteTodo")
+       axios
+        .delete(todos_base_url + this.state.currentTodo.id + "/")
+        .then(() => {
+          commit("deleteTodo",this.state.currentTodo.id)
+        })
+        .catch(err => console.log(err));
      }
   },
   modules: {

@@ -1,23 +1,39 @@
 <template>
-  <div class="home">
-    <Screen/>
-  </div>
+  <v-container fluid>
+     <!-- <Analytics/>
+       <hr /> -->
+     <TodosGrid />
+   </v-container>
 </template>
 
-<style scoped>
-
-</style>
-
 <script>
-// @ is an alias to /src
-import Screen from '@/components/Screen.vue'
+// import Analytics from './Analytics'
+import TodosGrid from '@/components/TodosGrid'
 
 export default {
   name: 'Home',
-  components: {
-    Screen
+  components : {
+    // Analytics,
+    TodosGrid
+  },
+  created(){
+    console.log("Created Called");
+    this.$store.dispatch("getTodos")
   }
+  
 }
 </script>
+
+<style>
+hr {
+    display: block;
+    height: 2px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+</style>
+
 
 
