@@ -5,6 +5,7 @@ import axios from "axios"
 Vue.use(Vuex)
 
 var todos_base_url = "http://localhost:8100/todos/";
+var auth_base_url = "http://localhost:8100/auth/";
 
 export default new Vuex.Store({
   state: {
@@ -16,7 +17,9 @@ export default new Vuex.Store({
     priorityColorMapping : {"3":"red","2":"orange","1":"blue"},
     priorityFilter : 0, // 0 -> All
     todos: [
-    ]
+    ],
+    email : null,
+    uid : null
   },
   getters : {
     allTodos: (state) => state.todos,
@@ -25,7 +28,9 @@ export default new Vuex.Store({
     getCurrentTodo: (state) => state.currentTodo,
     getEditTodoStatus: (state) => state.editTodo,
     getPriorityColorMapping : (state) => state.priorityColorMapping,
-    getPriorityFilter: (state) => state.priorityFilter
+    getPriorityFilter: (state) => state.priorityFilter,
+    getEmail : (state) => state.email,
+    getUID : (state) => state.uid
 
   },
   mutations: {
@@ -43,9 +48,37 @@ export default new Vuex.Store({
     },
     setPriorityFilter: (state,value) => state.priorityFilter = value,
     deleteTodo: (state,id) => state.todos = state.todos.filter((elem) => elem.id != id),
-    setTodos: (state,value) => state.todos = value
+    setTodos: (state,value) => state.todos = value,
+    setDetails(state,detail){
+        state.email = detail.email,
+        state.uid = detail.uid
+    }
   },
   actions: {
+
+     register({commit},{email,password}) {
+      console.log("Register action");
+      axios
+        .post(auth_base_url + "register/",
+          {email:email,password:password}
+        )
+        .then(res => {
+          commit("setDetails",res.data)
+        })
+        .catch(err => console.log(err))
+     },
+
+     login({commit},{email,password}) {
+      console.log("Login action");
+      axios
+        .post(auth_base_url + "login/",
+          {email:email,password:password}
+        )
+        .then(res => {
+          commit("setDetails",res.data)
+        })
+        .catch(err => console.log(err))
+     },
    
      getTodos({commit}){
       axios
