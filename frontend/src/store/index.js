@@ -7,11 +7,11 @@ Vue.use(Vuex)
 
 
 var authAxios = axios.create({
-    baseURL : "http://localhost:8000/"
+    baseURL : "https://dotodos.herokuapp.com/"
 })
 
 var todosAxios = axios.create({
-    baseURL : "http://localhost:8000/todos/",
+    baseURL : "https://dotodos.herokuapp.com/todos/",
 
 })
 
@@ -52,6 +52,7 @@ export default new Vuex.Store({
     setCurrentTodo: (state,value) => state.currentTodo=value,
     setCurrentTodoIndex: (state,value) => state.currentTodoIndex=value,
     setEditTodoStatus: (state,value) => state.editTodo = value,
+    setCurrentTodoBlankDesc: (state) => state.currentTodo.description = "",
     commitCurrentTodoToTodoInTodos(state,todo){
       Object.assign(state.todos[state.currentTodoIndex],todo)
     },

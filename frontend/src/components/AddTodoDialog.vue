@@ -3,7 +3,7 @@
         max-width="300"
         v-model="getAddTodoDialogStatus"
         :persistent="true"
-        
+
     >
         <v-card>
             <v-card-title class="headline">
@@ -14,7 +14,7 @@
             </v-card-title>
 
             <v-card-text>
-                     <v-form ref="form">  
+                     <v-form ref="form">
 
                         <v-text-field
                             id="title"
@@ -25,21 +25,20 @@
                             required
                             counter="25"
                             @input="titleChecker"
+                            hint = "Keep it Short and Simple"
                         ></v-text-field>
 
                         <v-textarea
                             label="Description"
                             filled
                             v-model="todo.description"
-                            :rules="descRules"
-                            required
-                      
+                            hint = "Free the clutter in your mind"
                         >
                         </v-textarea>
                      </v-form>
             </v-card-text>
 
-       
+
 
             <v-card-actions>
                 <v-btn text color="warning" @click="closeDialog">
@@ -64,11 +63,8 @@ export default {
         titleRules : [
             v => !!v || "Title is required",
             v => (v&&v.length <= 25) || "Keep It Short and Simple"
-        ],
-        descRules : [
-            v => !!v || "Describe here, free clutter in mind",
-        ],
-      
+        ]
+
     }),
     computed : {
         ...mapGetters(["getAddTodoDialogStatus","getPriorityColorMapping"]),
@@ -79,7 +75,15 @@ export default {
             this.$store.commit("setAddTodoDialogStatus",false)
         },
         addTodo(){
+
+
+            if (this.$store.getters.getCurrentTodo.description == null){
+                console.log("desc empty")
+                this.$store.commit("setCurrentTodoBlankDesc")
+            }
+
             if (this.$refs.form.validate()){
+
                 this.$store.dispatch("addTodo")
                 this.closeDialog()
             }
@@ -89,7 +93,7 @@ export default {
             if (title.length >= 25){
                 this.todo.title = title.slice(0,24)
                 this.$forceUpdate()
-            } 
+            }
         }
     },
     updated(){
@@ -97,11 +101,11 @@ export default {
             if (this.$refs.form){
                 this.$refs.form.resetValidation()
             }
-            
+
         })
     }
-  
-   
+
+
 }
 </script>
 

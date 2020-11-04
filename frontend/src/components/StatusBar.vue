@@ -8,10 +8,10 @@
         </v-flex>
 
         <v-spacer></v-spacer>
-
-        <v-card class = "mr-3 pa-1" @click="logout" v-if="notTryOut">
+        <v-btn @click="logout" v-if="notTryOut" class = "mr-3 pa-1" x-small outlined>
             Logout
-        </v-card>
+        </v-btn>
+
          <v-card class = "mr-3 pa-1" @click="home" v-if="tryOut">
             Home
         </v-card>

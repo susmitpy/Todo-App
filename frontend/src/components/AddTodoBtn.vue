@@ -1,53 +1,54 @@
 <template>
 
-    
+
      <v-speed-dial
     v-model = "fab"
 
-    :open-on-hover = "on_hover"  
+    :open-on-hover = "on_hover"
     :direction="direction"
     :transition="transition"
-   
+
   >
     <template v-slot:activator v-if="isMobile()">
-        
+
         <v-btn
             v-model = "fab"
             color = "blue darken-2"
             dark
-            fab    
+            fab
           >
             <v-icon v-if="fab">mdi-close</v-icon>
-            <v-icon v-else>mdi-add</v-icon>
+            <v-icon v-else>mdi-plus</v-icon>
           </v-btn>
     </template>
+
     <template v-slot:activator v-else>
-        
+
       <v-btn
             v-model = "fab"
             color = "blue darken-2"
             dark
-            
+
           >
             Add a Todo
           </v-btn>
     </template>
 
-   
+
     <v-tooltip top>
       <template v-slot:activator="{on}">
         <v-btn
                 fab
                 dark
                 small
-                color="red"    
+                color="red"
                 v-on="on"
                 @click="high_priority"
               >
           <v-icon>mdi-label</v-icon>
         </v-btn>
-      </template> 
-     
+      </template>
+
       <span>Add High Priority todo</span>
     </v-tooltip>
 
@@ -68,10 +69,10 @@
       </template>
       <span>Add Low Priority todo</span>
     </v-tooltip>
-   
+
   </v-speed-dial>
- 
- 
+
+
 </template>
 
 <script>
@@ -85,7 +86,7 @@ export default {
       }
   },
   computed: {
-     direction : ()=> (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) ? "left" : "right",
+     direction : ()=> (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) ? "right" : "right",
      on_hover : () => (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) ? false : true
     },
   methods:{

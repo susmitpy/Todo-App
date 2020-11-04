@@ -10,7 +10,7 @@
                 <v-spacer></v-spacer>
                 <span class="caption"> Priority : </span>
                 <v-icon :color="getPriorityColorMapping[todo.priority]">mdi-label</v-icon>
-                
+
                 <v-dialog max-width="250" :persistent="true" v-model="dialog">
                     <template #activator="{on:dialog}">
                         <v-tooltip right>
@@ -49,6 +49,7 @@
                             :readonly="!getEditTodoStatus"
                             v-model="todo.title"
                             :rules="titleRules"
+                            hint = "Keep it Short and Simple"
                             required
                             />
 
@@ -57,18 +58,17 @@
                             filled
                             :readonly="!getEditTodoStatus"
                             v-model="todo.description"
-                            :rules="descRules"
-                            required
-                            />  
+                            hint = "Free the clutter in your mind"
+                            />
                      </v-form>
             </v-card-text>
-          
+
             <v-card-actions>
                 <v-btn color="warning" @click="editTodo" v-if="!getEditTodoStatus">
                     Edit
                 </v-btn>
                 <v-spacer></v-spacer>
-                
+
                 <v-btn text color="purple" @click="closeDialog" v-if="!getEditTodoStatus">
                     Close
                 </v-btn>
@@ -103,7 +103,7 @@ export default {
               this.$store.commit("setEditTodoStatus",false)
             this.$store.dispatch("changeTodoDetails")
             }
-            
+
         },
         changePriorityTo(newPriority){
             this.todo.priority = newPriority;
@@ -121,9 +121,6 @@ export default {
             dialog : false,
              titleRules : [
                 v => !!v || "Title is required",
-            ],
-            descRules : [
-                v => !!v || "Describe here, free clutter in mind",
             ]
         }
     }

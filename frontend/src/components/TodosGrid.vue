@@ -1,38 +1,43 @@
 <template>
-          
+
             <v-container
                 class="fill-height"
                 fluid
             >
             <AddTodoDialog/>
             <TodoDetailsDialog/>
-       
-            <v-row align="center" v-if="isMobile()">
-                <!-- <h1 class="heading"> My Todos  </h1> -->
-                <v-spacer></v-spacer>
-           <span> <AddTodoBtn/>  </span>
-            </v-row>
 
-            <v-row align="center" justify="center" v-else>
+
+            <v-col>
+                <v-row>
+                    <span align="left" v-if="isMobile()"> <AddTodoBtn/>  </span>
+                   </v-row>
+  <v-row>
+             <FilterTodos align="center" class="mt-2" v-if="isMobile()"/>
+                 </v-row>
+             </v-col>
+
+
+            <v-row align="center" justify="center" v-if="!isMobile()">
                 <!-- <h1 class="heading"> My Web Todos  </h1> -->
-                
+
                 <span class="ml-3"> <AddTodoBtn/>  </span>
             </v-row>
-            
+
             <v-container class="my-3">
-                <div align="right">
+                <div align="right" v-if="!isMobile()">
                      <FilterTodos/>
                 </div>
-                <v-layout row wrap>      
+                <v-layout row wrap>
                      <!-- eslint-disable-next-line no-unused-vars -->
                     <Todo
                         v-for="(todo,index) in todosToShow"
                         :key = "todo.id"
                         :todo = todo
                         :index = "todo.index"
-                        
-                        
-                        />     
+
+
+                        />
                 </v-layout>
             </v-container>
         </v-container>
@@ -46,10 +51,10 @@ import TodoDetailsDialog from "./TodoDetailsDialog";
 import FilterTodos from  "./FilterTodos"
 export default {
     name : "TodosGrid",
-    computed : {   
+    computed : {
         todosToShow(){
             var allTodos = this.$store.getters.allTodos
-           
+
             var priorityFilter = this.$store.getters.getPriorityFilter
             if(priorityFilter == 0){ return allTodos }
             else {
@@ -67,10 +72,10 @@ export default {
                 // return allTodos.filter((elem) => elem.priority==priorityFilter)
             }
 
-            
 
-            
-           
+
+
+
         }
     },
     components : {
@@ -89,14 +94,14 @@ export default {
             }
         },
     },
-    
-  
+
+
 }
 </script>
 
 <style scoped>
-   
-    
+
+
     .addTodoBtn {
         position: absolute;
         bottom:0px;
@@ -105,15 +110,15 @@ export default {
 
     .legend {
         text-align: right;
-        
+
 
     }
 
     .priority_legend {
         font-size: 45px;
-        
+
     }
 
 
- 
+
 </style>
