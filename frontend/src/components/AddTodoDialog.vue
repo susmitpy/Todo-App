@@ -33,6 +33,8 @@
                             filled
                             v-model="todo.description"
                             hint = "Free the clutter in your mind"
+                            counter="150"
+                            :rules="descRules"
                         >
                         </v-textarea>
                      </v-form>
@@ -63,6 +65,9 @@ export default {
         titleRules : [
             v => !!v || "Title is required",
             v => (v&&v.length <= 25) || "Keep It Short and Simple"
+        ],
+        descRules : [
+            v => (!v||v.length <= 150) || "Not so long !"
         ]
 
     }),
